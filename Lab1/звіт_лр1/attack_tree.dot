@@ -1,0 +1,28 @@
+digraph G {
+  rankdir=LR; dpi=200; nodesep=0.15; ranksep=0.2;
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#444444", fontname="DejaVu Sans", fontsize=11, margin="0.08,0.05"];
+  edge [color="#555555", arrowhead=none];
+  root [label="Мета: змінити фінансові\nзаписи інших користувачів\nу хмарній БД DS3\n(T-05, CVSS 8.8)", fillcolor="#F4CCCC"];
+  and0 [label="AND", shape=circle, width=0.45, fixedsize=true, fontsize=9, margin=0, fillcolor="#EEEEEE"];
+  n1 [label="1. Отримати\nавтентифікований\nдоступ до API (PR:L)"];
+  n2 [label="2. Виконати довільний\nSQL через сервіс\nсинхронізації P3"];
+  or1 [label="OR", shape=circle, width=0.45, fixedsize=true, fontsize=9, margin=0, fillcolor="#EEEEEE"];
+  or2 [label="OR", shape=circle, width=0.45, fixedsize=true, fontsize=9, margin=0, fillcolor="#EEEEEE"];
+  n11 [label="1.1 Зареєструвати власний\nобліковий запис"];
+  n12 [label="1.2 Викрадений\nrefresh-токен (I-12)"];
+  n13 [label="1.3 Підібрати пароль\nчужого запису (S-09)"];
+  n21 [label="2.1 Ін’єкція першого\nпорядку в параметр\nпошуку"];
+  n22 [label="2.2 Ін’єкція другого\nпорядку через пакет\nсинхронізації"];
+  and21 [label="AND", shape=circle, width=0.45, fixedsize=true, fontsize=9, margin=0, fillcolor="#EEEEEE"];
+  and22 [label="AND", shape=circle, width=0.45, fixedsize=true, fontsize=9, margin=0, fillcolor="#EEEEEE"];
+  n211 [label="2.1.1 Виявити параметр\n(q або sort), що\nконкатенується в SQL", fillcolor="#FFF2CC"];
+  n212 [label="2.1.2 Визначити СКБД\nза текстом помилки API", fillcolor="#FFF2CC"];
+  n213 [label="2.1.3 Надіслати UPDATE\nчерез stacked query\nбез WHERE owner_id", fillcolor="#FFF2CC"];
+  n221 [label="2.2.1 Записати назву\nкатегорії зі шкідливим\nрядком клієнтом\n(T-06, T-03)", fillcolor="#FFF2CC"];
+  n222 [label="2.2.2 Запустити звіт, що\nвставляє назву категорії\nв динамічний SQL", fillcolor="#FFF2CC"];
+  root -> and0; and0 -> n1; and0 -> n2;
+  n1 -> or1; or1 -> n11; or1 -> n12; or1 -> n13;
+  n2 -> or2; or2 -> n21; or2 -> n22;
+  n21 -> and21; and21 -> n211; and21 -> n212; and21 -> n213;
+  n22 -> and22; and22 -> n221; and22 -> n222;
+}
